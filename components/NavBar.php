@@ -4,14 +4,14 @@ session_start();
 
 <!-- NAVBAR -->
 <nav class="navbar">
-    <div class="navbar-container">
-        <!-- Logo -->
-        <div class="logo-container">
-            <div class="logo">
-                <span class="spinner"></span>
-                <span class="logo-text">ZedMemes</span>
-            </div>
-        </div>
+  <div class="navbar-container">
+    <!-- Logo -->
+    <div class="logo-container">
+      <div class="logo">
+       
+        <span class="logo-text">ZedMemes</span>
+      </div>
+    </div>
 
         <!-- Menu Items -->
         <ul class="menu-items">

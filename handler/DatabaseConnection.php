@@ -5,31 +5,54 @@ function connection() {
     $user = 'root';
     $pass = '';
 
-    $conn = new mysqli($host, $user, $pass, $db);
-
+    // First connect without database
+    $conn = new mysqli($host, $user, $pass);
     if ($conn->connect_error) {
         die('Connection failed: ' . $conn->connect_error);
     }
 
-    // Ensure users table exists
-    createUsersTable($conn);
+    // Create database if not exists
+    $sql = "CREATE DATABASE IF NOT EXISTS `$db` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
+    if (!$conn->query($sql)) {
+        die("Error creating database: " . $conn->error);
+    }
+
+    // Select the database
+    if (!$conn->select_db($db)) {
+        die("Error selecting database: " . $conn->error);
+    }
+
+    // Create tables
+    createTables($conn);
 
     return $conn;
 }
 
-function createUsersTable($conn) {
-    $sql = "
-    CREATE TABLE IF NOT EXISTS users (
-        id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        username VARCHAR(50) NOT NULL UNIQUE,
-        email VARCHAR(255) NOT NULL UNIQUE,
+function createTables($conn) {
+    // Create users table
+    $sql = "CREATE TABLE IF NOT EXISTS users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(50) UNIQUE NOT NULL,
+        email VARCHAR(100) UNIQUE NOT NULL,
         password_hash VARCHAR(255) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-    ";
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
 
     if (!$conn->query($sql)) {
         die("Error creating users table: " . $conn->error);
+    }
+
+    // Create image table
+    $sql = "CREATE TABLE IF NOT EXISTS image (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        filename VARCHAR(255) NOT NULL,
+        upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        likes INT DEFAULT 0,
+        user_id INT,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+
+    if (!$conn->query($sql)) {
+        die("Error creating image table: " . $conn->error);
     }
 }

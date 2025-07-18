@@ -28,7 +28,8 @@ document.getElementById("openUploadButton").addEventListener("click", function()
   const previewDiv = document.getElementById('preview');
 
   imageInput.addEventListener('change', function(e) {
-    // Clear previous preview
+    // Clear preMerge branch 'tc-fix'
+ preview
     previewDiv.innerHTML = '';
     
     if (this.files && this.files[0]) {
