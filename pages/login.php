@@ -9,14 +9,16 @@ session_start();
     <form id="login-form" class="login-form">
         <h2>ZedMemes Login</h2>
 
+        <div id="error-message" class="error-message" style="color: red; display: none; margin-bottom: 15px;"></div>
+
         <div class="input-group">
             <label for="username">Username</label>
-            <input type="text" id="username" placeholder="Enter your username" required />
+            <input type="text" id="username" name="username" placeholder="Enter your username" required />
         </div>
 
         <div class="input-group">
             <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Enter your password" required />
+            <input type="password" id="password" name="password" placeholder="Enter your password" required />
         </div>
 
         <div class="options">
@@ -37,24 +39,39 @@ session_start();
 <script>
     document.getElementById('login-form').addEventListener('submit', async function (e) {
         e.preventDefault();
+        
+        const form = e.target;
+        const errorElement = document.getElementById('error-message');
+        errorElement.style.display = 'none';
+        
+        const username = form.username.value.trim();
+        const password = form.password.value;
 
-        const formData = new FormData(this);
-        formData.append('action', 'login');
+        try {
+            const response = await fetch('../handler/auth-handler.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: new URLSearchParams({
+                    action: 'login',
+                    username: username,
+                    password: password
+                })
+            });
 
-        console.log(formData)
-
-        const response = await fetch('../handler/auth-handler.php', {
-            method: 'POST',
-            body: formData
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-            alert(result.message);
-            window.location.href = result.redirect;
-        } else {
-            alert(result.message);
+            const result = await response.json();
+            
+            if (result.success) {
+                window.location.href = result.redirect || '/';
+            } else {
+                throw new Error(result.message || 'Login failed');
+            }
+        } catch (error) {
+            errorElement.textContent = error.message || 'An error occurred. Please try again.';
+            errorElement.style.display = 'block';
+            console.error('Login error:', error);
         }
     });
 </script>
