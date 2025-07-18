@@ -1,3 +1,11 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require 'test_db.php';
+
+?>
+
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
@@ -10,8 +18,9 @@
     <link rel="stylesheet" href="zedmem.css">
     <link rel="stylesheet" href="reaction.css">
     <link rel="stylesheet" href="foundatiob\css\foundation.css">
-    <link rel="stylesheet" href="foundatiob/css/main.css">
+    <link rel="stylesheet" href="foundatiob\css\main.css">
 
     <link rel="stylesheet" href="responsive.css">
 </head>
-<body>
+<body >
+
