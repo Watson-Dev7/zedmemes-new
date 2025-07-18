@@ -19,10 +19,10 @@ session_destroy();
 // Send JSON response to confirm logout (or redirect)
 $response = [
     'success' => true,
-    'message' => 'Logged out successfully.'
+    'message' => 'Logged out successfullyy.'
 ];
 
-header('Content-Type: application/json');
+header('Content-Type: application/json'); 
 echo json_encode($response);
 exit;
 ?>
