@@ -1,0 +1,132 @@
+ .icons
+      {
+         padding: 0;
+         margin: 10px;
+         color: #B0B0B0;
+         width: 25px;
+         display: flex;
+         
+
+      }
+       .cta-button {
+            padding: 3px ;
+            
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+          
+            
+            /* gap: 8px; Space between text and icon */
+        }
+        
+      .profile{
+        border-radius: 100px;
+        object-fit: cover;
+        height: 50px;
+        width: 50px;
+        margin-bottom: 8px;
+        border: 1px solid #2c2c2c;
+        align-items: center;
+        display: flex;
+        
+        justify-content: left;
+      }
+      p{
+        text-align: left;
+        text-wrap: left;
+      }
+
+      /*reactions*/
+      .cta-button {
+  padding: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.icons {
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.icons.animate {
+  animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
+
+/* Full-page translucent overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Translucent black */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Hide by default */
+.hidden {
+  display: none;
+}
+
+/* Pop-up box */
+.popup {
+  background: #fff;
+  padding: 20px;
+  width: 300px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* Profile picture */
+.profile-pic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+/* Description */
+.description {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Buttons */
+.popup-actions button {
+  margin: 5px;
+  padding: 8px 12px;
+  border: none;
+  background-color: #0077cc;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popup-actions button:hover {
+  background-color: #005fa3;
+}
+
+.error-message {
+    color: red;
+    margin: 10px 0;
+}
+
+input:invalid {
+    border-color: red;
+}

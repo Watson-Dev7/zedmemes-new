@@ -1,0 +1,155 @@
+/* Base Container Styles */
+.grid-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+/* Form Overlay Responsiveness */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.form-popup {
+    background: #fff;
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Profile Popup Responsiveness */
+.popup {
+    width: 100%;
+    max-width: 350px;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    object-fit: cover;
+}
+
+/* Meme Grid Responsiveness */
+.meme-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    width: 100%;
+}
+
+/* Card Responsiveness */
+.meme-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-image {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.meme-image {
+    max-width: 100%;
+    max-height: 300px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Button Responsiveness */
+.button, .cta-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+    .meme-grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .top-bar-left .menu-text,
+    .title-bar-title {
+        font-size: 1.25rem;
+    }
+    
+    .meme-grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    
+    .form-popup, .popup {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-bar-right .menu {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .top-bar-right .menu li {
+        margin: 0.25rem;
+    }
+    
+    .meme-grid-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .button, .cta-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    .card-divider,
+    .card-section {
+        padding: 0.75rem;
+    }
+}
+
+/* Fluid Typography */
+html {
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    html {
+        font-size: 13px;
+    }
+}
