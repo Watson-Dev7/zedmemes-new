@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../foundatiob/css/login.css">
+<link rel="stylesheet" href="../foundation/css/login.css">
 
 <div class="login-wrapper">
     <form id="login-form" class="login-form">
