@@ -1,8 +1,3 @@
-<?php include '../components/Header.php' ?>
-<?php
-session_start();
-?>
-
 <link rel="stylesheet" href="../foundatiob/css/login.css">
 
 <div class="login-wrapper">

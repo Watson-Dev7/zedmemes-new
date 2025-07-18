@@ -22,5 +22,5 @@ require 'test_db.php';
 
     <link rel="stylesheet" href="responsive.css">
 </head>
-<body >
+<body>
 
