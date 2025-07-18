@@ -201,7 +201,7 @@ function closeForm() {
   document.getElementById('form-overlay').classList.add('hidden');
 }
 
-openForm('login');
+// Login form will be shown when user clicks the login button
 </script>
 <style>
 
