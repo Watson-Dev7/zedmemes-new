@@ -46,18 +46,33 @@ getDbConnection();
  
 // }
 
-function uploadMeme($filename) 
+function uploadMeme($filename, $userId = null) 
 {
     try {
         $db = getDbConnection();
-        $stmt = $db->prepare("INSERT INTO image (filename) VALUES (?)");
-        if (!$stmt) {
-            throw new Exception('Prepare failed: ' . $db->error);
+        
+        // If user is logged in, include user_id in the query
+        if ($userId !== null) {
+            $stmt = $db->prepare("INSERT INTO image (filename, user_id) VALUES (?, ?)");
+            if (!$stmt) {
+                throw new Exception('Prepare failed: ' . $db->error);
+            }
+            $stmt->bind_param("si", $filename, $userId);
+        } else {
+            $stmt = $db->prepare("INSERT INTO image (filename) VALUES (?)");
+            if (!$stmt) {
+                throw new Exception('Prepare failed: ' . $db->error);
+            }
+            $stmt->bind_param("s", $filename);
         }
         
-        $stmt->bind_param("s", $filename);
         if ($stmt->execute()) {
-            return ['success' => true, 'message' => 'Upload successful'];
+            return [
+                'success' => true, 
+                'message' => 'Upload successful',
+                'meme_id' => $stmt->insert_id,
+                'user_id' => $userId
+            ];
         } else {
             throw new Exception('Execute failed: ' . $stmt->error);
         }
@@ -79,7 +94,12 @@ function retrieveMeme()
     
     try {
         $db = getDbConnection();
-        $sql = "SELECT * FROM image ORDER BY id DESC";
+        // Join with users table to get the username of the uploader
+        $sql = "SELECT i.*, u.username as uploader 
+                FROM image i 
+                LEFT JOIN users u ON i.user_id = u.id 
+                ORDER BY i.id DESC";
+                
         $result = $db->query($sql);
         
         if (!$result) {
@@ -89,7 +109,11 @@ function retrieveMeme()
         while ($row = $result->fetch_assoc()) {
             $arrayImage[] = [
                 "id" => $row["id"],
-                "name" => $row["filename"]
+                "name" => $row["filename"],
+                "uploader" => $row["uploader"] ?? 'Anonymous',
+                "uploader_id" => $row["user_id"],
+                "upload_date" => $row["upload_date"],
+                "likes" => $row["likes"] ?? 0
             ];
         }
         
