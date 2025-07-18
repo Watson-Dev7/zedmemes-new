@@ -1,4 +1,4 @@
-<?php
+<?php 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -6,14 +6,14 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <!-- NAVBAR -->
 <nav class="navbar">
-  <div class="navbar-container">
-    <!-- Logo -->
-    <div class="logo-container">
-      <div class="logo">
-       
-        <span class="logo-text">ZedMemes</span>
-      </div>
-    </div>
+    <div class="navbar-container">
+        <!-- Logo -->
+        <div class="logo-container">
+            <div class="logo">
+
+                <span class="logo-text">ZedMemes</span>
+            </div>
+        </div>
 
         <!-- Menu Items -->
         <ul class="menu-items">
@@ -22,9 +22,6 @@ if (session_status() === PHP_SESSION_NONE) {
                 <!-- Only visible to logged-in users -->
                 <li>
                     <button class="menu-button" onclick="triggerThrobber()">Create Meme</button>
-                </li>
-                <li>
-                    <button class="menu-button" onclick="triggerThrobber()">Remove Meme</button>
                 </li>
             <?php else: ?>
                 <!-- Only visible to guests -->
@@ -45,12 +42,12 @@ if (session_status() === PHP_SESSION_NONE) {
                     </button>
 
                     <div id="profile-overlay" class="profile-overlay hidden">
-                        <div class="popup">
+                        <div class="">
                             <img src="zedmems.jpg" alt="Profile Picture" class="profile-pic">
-                            <h3>@<?= htmlspecialchars($_SESSION['username'] ?? 'user') ?></h3>
-                            <p class="description">Meme queen of ZedMemes. Loves cats, coding, and comedy.</p>
+                            <h3><?= htmlspecialchars($_SESSION['username'] ?? 'user') ?></h3>
                             <div class="popup-actions">
-                                <button class="cta-button" onclick="logout()">Log Out</button>
+                                <button type="button" class="cta-button" id="logout-btn" data-href="logout.php">Log
+                                    Out</button>
                                 <button onclick="closeProfile()">Close</button>
                             </div>
                         </div>
@@ -64,8 +61,41 @@ if (session_status() === PHP_SESSION_NONE) {
                     <a href="pages/signup.php" class="menu-button signup-btn">Sign Up</a>
                 </li>
             <?php endif; ?>
-
-
         </ul>
     </div>
 </nav>
+
+
+<script>
+    document.getElementById('logout-btn')?.addEventListener('click', async function () {
+        if (!confirm("Are you sure you want to logout?")) return;
+
+        try {
+            const response = await fetch('../handler/logout.php', {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            // Optionally handle response:
+            // const result = await response.json();
+            // if (result.success) window.location.href = '../pages/login.php';
+
+            // Simple fallback redirect:
+            // window.location.href = '../pages/login.php';
+
+        } catch (error) {
+            alert('Logout failed. Please try again.');
+            console.error('Logout error:', error);
+        }
+    });
+
+    function toggleProfile() {
+        document.getElementById("profile-overlay").classList.toggle("hidden");
+    }
+
+    function closeProfile() {
+        document.getElementById("profile-overlay").classList.add("hidden");
+    }
+</script>
