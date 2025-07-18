@@ -26,7 +26,7 @@
 
         <button type="submit" class="login-btn">Login</button>
 
-        <p class="signup-text">Don't have an account? <a href="#">Sign up</a></p>
+        <p class="signup-text">Don't have an account? <a href="signup.php">Sign up</a></p>
     </form>
 </div>
 
@@ -59,7 +59,7 @@
             const result = await response.json();
             
             if (result.success) {
-                window.location.href = result.redirect || '/';
+                window.location.href = result.redirect || '/zedmemes-new';
             } else {
                 throw new Error(result.message || 'Login failed');
             }

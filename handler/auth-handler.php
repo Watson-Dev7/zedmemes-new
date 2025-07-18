@@ -46,7 +46,7 @@ try {
     if ($action === 'login') {
         handleLogin($conn, $username, $password);
     } else if ($action === 'signup') {
-        handleSignup($conn, $username, $password);
+        handleSignup( $conn, $username,$email, $password);
     } else {
         throw new Exception('Invalid action specified.', 400);
     }
@@ -59,7 +59,7 @@ try {
 
 
 // === Functions ===
-function handleSignup($conn, $username, $password) {
+function handleSignup($conn, $username,$email, $password) {
     global $response;
 
     // Get input data
@@ -73,9 +73,9 @@ function handleSignup($conn, $username, $password) {
     }
 
     // Password confirmation check
-    if ($password !== $confirm_password) {
-        throw new Exception('Passwords do not match.', 400);
-    }
+    // if ($password !== $confirm_password) {
+    //     throw new Exception('Passwords do not match.', 400);
+    // }
 
     // Check if username exists
     if (userExists($conn, 'username', $username)) {
@@ -105,7 +105,7 @@ function handleSignup($conn, $username, $password) {
         $response = [
             'success' => true,
             'message' => 'Registration successful!',
-            'redirect' => '/'
+            'redirect' => '/zedmemes-new'
         ];
         
         sendJsonResponse($response);
@@ -143,7 +143,7 @@ function handleLogin($conn, $username, $password) {
         $response = [
             'success' => true,
             'message' => 'Login successful!',
-            'redirect' => '/',
+            'redirect' => '/zedmemes-new',
             'user' => [
                 'id' => $user['id'],
                 'username' => $user['username']
