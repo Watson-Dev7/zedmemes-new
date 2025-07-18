@@ -1,7 +1,6 @@
 <?php
 header('Content-Type: application/json');
 session_start();
-
 require_once 'DatabaseConnection.php';
 
 $response = ['success' => false, 'message' => ''];
@@ -41,7 +40,6 @@ try {
     exit;
 }
 
-$conn->close();
 
 // === Functions ===
 function handleSignup($conn, $username, $password) {
@@ -91,10 +89,11 @@ function handleSignup($conn, $username, $password) {
     }
 
     $stmt->close();
+    $stmt->close();
+    $conn->close();
     echo json_encode($response);
     exit;
 }
-
 function handleLogin($conn, $username, $password) {
     global $response;
 
