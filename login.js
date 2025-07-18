@@ -44,21 +44,40 @@ document.getElementById('auth-form').addEventListener('submit', function(e) {
     })
     .then(data => {
         if (data.success) {
-            // window.location.href = data.redirect || 'index.html';
-            closeForm()
+            // Show success message
+            alert(data.message || 'Operation successful');
             
+            // Close the login/signup form
+            if (typeof closeForm === 'function') {
+                closeForm();
+            }
+            
+            // Redirect if redirect URL is provided
+            if (data.redirect) {
+                // Small delay to show success message before redirect
+                setTimeout(() => {
+                    window.location.href = data.redirect;
+                }, 500);
+            } else {
+                // If no redirect, reload the page to update the UI
+                window.location.reload();
+            }
         } else {
             alert(data.message || 'An error occurred');
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Request failed. Please check console for details.');
+        // Show more detailed error message if available
+        const errorMessage = error.message || 'Request failed. Please check console for details.';
+        alert(errorMessage);
     })
     .finally(() => {
         // Restore button state
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
+        if (submitBtn && originalText) {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
     });
 });
 
