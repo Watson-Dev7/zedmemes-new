@@ -1,46 +1,90 @@
 <?php
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Set headers for Server-Sent Events
 header('Content-Type: text/event-stream');
 header('Cache-Control: no-cache');
 header('Connection: keep-alive');
 header('X-Accel-Buffering: no'); // Important for Nginx servers
 
-include __DIR__ . '/Memeprocess.php';
+// Set time limit and disable time limit
+set_time_limit(0);
+ignore_user_abort(true);
 
-// $MemeImg=retrieveMeme();
-
-//     echo "data: " . json_encode([
-//         "success" => true,
-//         "data" => $MemeImg
-//     ]) . "\n\n";
-$endTime = time() + 5; // Close after 30 seconds
-$lastUpdate = time();
-
-while (time() < $endTime) {
-    // Send heartbeat every 3 seconds to keep connection alive
-    if ((time() - $lastUpdate) >= 3) {
-        echo ": heartbeat\n\n"; // Comment-only heartbeat
-        flush();
-        $lastUpdate = time();
+// Function to send SSE message
+function sendSseMessage($data, $event = null) {
+    if ($event !== null) {
+        echo "event: $event\n";
     }
-
-    // Simulate dynamic data (e.g., from DB)
-    // $users = [
-    //     ["id" => 1, "name" => "/img/68780acebef3c_IMG-20240318-WA0003.jpg"],
-    //     ["id" => 2, "name" => "Jane"]
-    // ];
-    $MemeImg=retrieveMeme();
-
-    echo "data: " . json_encode([
-        "success" => true,
-        "data" => $MemeImg
-    ]) . "\n\n";
-    
+    echo 'data: ' . json_encode($data) . "\n\n";
+    ob_flush();
     flush();
-    
-    sleep(2); // Reduced from 10 to 2 seconds
 }
 
-// Explicit close message
-echo "event: close\ndata: Connection closed after 5 seconds\n\n";
-flush();
+try {
+    // Include the Memeprocess file
+    require_once __DIR__ . '/Memeprocess.php';
+    
+    // Set end time (5 minutes from now)
+    $endTime = time() + 300; // 5 minutes
+    $lastUpdate = 0;
+    
+    // Main SSE loop
+    while (time() < $endTime && connection_status() == CONNECTION_NORMAL) {
+        // Send heartbeat every 15 seconds to keep connection alive
+        if ((time() - $lastUpdate) >= 15) {
+            sendSseMessage(['type' => 'heartbeat', 'time' => date('Y-m-d H:i:s')]);
+            $lastUpdate = time();
+        }
+        
+        try {
+            // Get meme data
+            $memeData = retrieveMeme();
+            
+            // Send data to client
+            sendSseMessage([
+                'success' => true,
+                'data' => $memeData,
+                'timestamp' => date('Y-m-d H:i:s')
+            ]);
+            
+            // Small delay to prevent high CPU usage
+            usleep(2000000); // 2 seconds
+            
+        } catch (Exception $e) {
+            error_log('Error retrieving memes: ' . $e->getMessage());
+            sendSseMessage([
+                'success' => false,
+                'error' => 'Failed to retrieve memes',
+                'timestamp' => date('Y-m-d H:i:s')
+            ]);
+            
+            // Wait a bit before retrying
+            sleep(5);
+        }
+    }
+    
+    // Send close event
+    sendSseMessage(['type' => 'close', 'message' => 'Connection closed'], 'close');
+    
+} catch (Exception $e) {
+    // Log the error
+    error_log('SSE Error: ' . $e->getMessage());
+    
+    // Try to send an error message to the client
+    if (!headers_sent()) {
+        sendSseMessage([
+            'success' => false,
+            'error' => 'Server error occurred',
+            'timestamp' => date('Y-m-d H:i:s')
+        ]);
+    }
+}
+
+// Ensure no further output
+if (ob_get_level() > 0) {
+    ob_end_flush();
+}
 ?>
