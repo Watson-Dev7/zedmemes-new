@@ -4,7 +4,7 @@
     <!-- Logo -->
     <div class="logo-container">
       <div class="logo">
-        <span class="spinner"></span>
+       
         <span class="logo-text">ZedMemes</span>
       </div>
     </div>
