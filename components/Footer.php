@@ -15,6 +15,7 @@
 
 <script src="start.js"></script>
 <script src="foundatiob/js/main.js"></script>
+
 <script>
     document.querySelectorAll('.cta-button').forEach(button => {
         button.addEventListener('click', () => {

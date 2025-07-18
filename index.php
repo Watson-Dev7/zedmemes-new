@@ -16,7 +16,7 @@
 
   <div id="form-errors" class="error-message"></div>
   <!-- Overlay Container -->
-  <div id="form-overlay" class="overlay hidden">
+  <!-- <div id="form-overlay" class="overlay hidden">
     <div class="form-popup" id="form-content">
       <h2 id="form-title">Log In</h2>
       <form id="auth-form">
@@ -36,19 +36,15 @@
         </div>
       </form>
     </div>
-  </div>
+  </div>  -->
 
   <section id="scroll">
     <div class="grid-x grid-margin-x">
-
-
-
       <!-- Add this where you want memes to appear -->
       <!-- <div id="getData" class="grid-x grid-margin-x"></div> -->
       <div id="center">
         <span id="show"></span>
       </div>
-
     </div>
   </section>
 </div>
