@@ -11,7 +11,7 @@
 <script src="pages/uploadMeme.js"></script>
 
 <!-- <script src="finalReceiveData.js"></script> -->
-<script src="test.Response.js"></script>
+<!-- <script src="test.Response.js"></script> -->
 
 <script src="start.js"></script>
 <script src="foundation/js/main.js"></script>

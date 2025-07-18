@@ -21,7 +21,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <?php if (isset($_SESSION['user_id'])): ?>
                 <!-- Only visible to logged-in users -->
                 <li>
-                    <button class="menu-button" onclick="triggerThrobber()">Create Meme</button>
+                    <    class="menu-button" onclick="triggerThrobber()">Create Meme</button>
                 </li>
             <?php else: ?>
                 <!-- Only visible to guests -->
@@ -77,6 +77,10 @@ if (session_status() === PHP_SESSION_NONE) {
                     'X-Requested-With': 'XMLHttpRequest'
                 }
             });
+
+            if(response){
+                console.log("success", response)
+            }
 
             // Optionally handle response:
             // const result = await response.json();
