@@ -5,7 +5,7 @@ header('Content-Type: application/json'); // Ensure JSON response
 include __DIR__ . '/Memeprocess.php';
 
 if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
-    $uploadDir = '../img/';
+    // $uploadDir = '../img/';
     if (!file_exists($uploadDir)) {
         mkdir($uploadDir, 0777, true);
     }
