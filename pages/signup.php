@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 
-<link rel="stylesheet" href="../foundatiob/css/login.css">
+<link rel="stylesheet" href="../foundation/css/login.css">
 
 
 <div class="login-wrapper">
