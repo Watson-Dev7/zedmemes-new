@@ -1,4 +1,9 @@
 <?php
+// Check if mysqli extension is loaded
+if (!extension_loaded('mysqli')) {
+    die('The mysqli extension is not available. Please enable it in your PHP configuration.');
+}
+
 function connection() {
     $host = 'localhost';
     $db = 'zedmemes';
@@ -25,6 +30,17 @@ function connection() {
     // Create tables
     createTables($conn);
 
+    if ($conn->connect_error) {
+        error_log('Database connection failed: ' . $conn->connect_error);
+        throw new Exception('Database connection failed: ' . $conn->connect_error);
+    }
+    
+    // Set charset to ensure proper encoding
+    if (!$conn->set_charset('utf8mb4')) {
+        error_log('Error setting charset: ' . $conn->error);
+        throw new Exception('Error setting database charset');
+    }
+    
     return $conn;
 }
 
