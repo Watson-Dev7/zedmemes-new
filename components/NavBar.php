@@ -25,7 +25,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     <button class="menu-button" onclick="triggerThrobber()">Remove Meme</button>
                 </li>
                 <li>
-                    <a href="pages/logout.php" class="menu-button">Logout</a>
+                    <a href="#" id="logout-btn" class="menu-button">Logout</a>
                 </li>
             <?php else: ?>
                 <!-- Only visible to guests -->
@@ -42,3 +42,38 @@ if (session_status() === PHP_SESSION_NONE) {
         </ul>
     </div>
 </nav>
+
+<script>
+// Handle logout button click
+document.getElementById('logout-btn')?.addEventListener('click', async function(e) {
+    e.preventDefault();
+    
+    if (!confirm('Are you sure you want to log out?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch('../handler/logout.php', {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'  // Important for sending cookies/session
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            // Redirect to login page after successful logout
+            window.location.href = '/';
+        } else {
+            alert('Logout failed: ' + (result.message || 'Unknown error'));
+        }
+    } catch (error) {
+        console.error('Logout error:', error);
+        // Fallback redirect in case of error
+        window.location.href = '/';
+    }
+});
+</script>
