@@ -1,41 +1,118 @@
 <?php
+require_once 'config/database.php';
 include './components/Header.php';
-
 require './components/homePage/Card.php';
 
 // Sample meme data
-$memes = [
+$sampleMemes = [
     [
         'image' => 'https://i.imgflip.com/7b1bn9.jpg',
         'title' => 'Distracted Boyfriend',
-        'likes' => 1243
+        'likes' => rand(100, 2500),
+        'is_sample' => true
     ],
     [
         'image' => 'https://i.imgflip.com/1h7in3.jpg',
         'title' => 'Batman Slapping Robin',
-        'likes' => 876
+        'likes' => rand(100, 2500),
+        'is_sample' => true
     ],
     [
         'image' => 'https://i.imgflip.com/1g8my4.jpg',
         'title' => 'Drake Hotline Bling',
-        'likes' => 2156
+        'likes' => rand(100, 2500),
+        'is_sample' => true
     ],
     [
         'image' => 'https://i.imgflip.com/9vct.jpg',
         'title' => 'Roll Safe',
-        'likes' => 543
+        'likes' => rand(100, 2500),
+        'is_sample' => true
     ],
     [
         'image' => 'https://i.imgflip.com/1ihzfe.jpg',
         'title' => 'One Does Not Simply',
-        'likes' => 1892
+        'likes' => rand(100, 2500),
+        'is_sample' => true
     ],
     [
         'image' => 'https://i.imgflip.com/1bij.jpg',
         'title' => 'Y U No',
-        'likes' => 321
+        'likes' => rand(100, 2500),
+        'is_sample' => true
     ]
 ];
+
+// Fetch uploaded memes from database
+$uploadedMemes = [];
+try {
+    // First, check if likes table exists
+    $likesTableExists = $pdo->query("SHOW TABLES LIKE 'likes'")->rowCount() > 0;
+    
+    if ($likesTableExists) {
+        $stmt = $pdo->query("SELECT m.id, m.title, m.image_url, m.created_at, 
+                             COALESCE(COUNT(l.id), 0) as likes,
+                             u.username
+                             FROM memes m 
+                             LEFT JOIN users u ON m.user_id = u.id
+                             LEFT JOIN likes l ON m.id = l.meme_id
+                             GROUP BY m.id
+                             ORDER BY m.created_at DESC");
+    } else {
+        // If likes table doesn't exist, just get memes with 0 likes
+        $stmt = $pdo->query("SELECT m.id, m.title, m.image_url, m.created_at, 
+                             0 as likes,
+                             u.username
+                             FROM memes m 
+                             LEFT JOIN users u ON m.user_id = u.id
+                             ORDER BY m.created_at DESC");
+    }
+    
+    $uploadedMemes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Format uploaded memes to match sample memes structure
+    $uploadedMemes = array_map(function($meme) {
+        $imageUrl = $meme['image_url'];
+        if (!empty($imageUrl)) {
+            // Remove leading slash for consistency
+            $imageUrl = ltrim($imageUrl, '/');
+            // If it's a local path, check if file exists
+            if (!filter_var($imageUrl, FILTER_VALIDATE_URL)) {
+                // Try to find the file in the uploads directory if it doesn't exist at the specified path
+                if (!file_exists($imageUrl) && file_exists('uploads/memes/' . basename($imageUrl))) {
+                    $imageUrl = 'uploads/memes/' . basename($imageUrl);
+                }
+            }
+            // Ensure the path is web-accessible
+            if (!filter_var($imageUrl, FILTER_VALIDATE_URL) && !file_exists($imageUrl)) {
+                error_log("Image not found: " . $imageUrl);
+            }
+        }
+        return [
+            'id' => $meme['id'],
+            'image' => $imageUrl,
+            'title' => $meme['title'],
+            'likes' => (int)$meme['likes'],
+            'username' => $meme['username'],
+            'created_at' => $meme['created_at'],
+            'is_sample' => false
+        ];
+    }, $uploadedMemes);
+    
+} catch (PDOException $e) {
+    error_log("Error fetching memes: " . $e->getMessage());
+}
+
+// Combine sample and uploaded memes
+$allMemes = array_merge($sampleMemes, $uploadedMemes);
+
+// Randomize the order while preserving keys
+$keys = array_keys($allMemes);
+shuffle($keys);
+$shuffledMemes = [];
+foreach ($keys as $key) {
+    $shuffledMemes[$key] = $allMemes[$key];
+}
 ?>
 
 <!-- Add Font Awesome for icons -->
@@ -43,9 +120,12 @@ $memes = [
 
 <main class="meme-feed">
     <div class="meme-grid">
-        <?php foreach ($memes as $meme): ?>
-            <div class="meme-grid__item">
-                <?php renderCard($meme['image'], $meme['title'], $meme['likes']); ?>
+        <?php foreach ($shuffledMemes as $meme): ?>
+            <div class="meme-grid__item" data-meme-id="<?= $meme['is_sample'] ? 'sample' : $meme['id'] ?>">
+                <?php 
+                $username = $meme['is_sample'] ? 'Sample' : ($meme['username'] ?? 'Anonymous');
+                renderCard($meme['image'], $meme['title'], $meme['likes'], $username); 
+                ?>
             </div>
         <?php endforeach; ?>
     </div>

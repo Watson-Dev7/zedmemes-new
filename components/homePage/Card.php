@@ -1,17 +1,39 @@
 <?php
-function renderCard($imageSrc, $title = "Untitled", $likes = 0) {
+function renderCard($imageSrc, $title = "Untitled", $likes = 0, $username = "User") {
     // Generate a unique ID for each card for JavaScript interactions
     $cardId = 'card-' . uniqid();
+    
+    // Format username for display
+    $displayUsername = htmlspecialchars($username);
+    $initials = strtoupper(substr($username, 0, 2));
+    $bgColor = substr(md5($username), 0, 6); // Generate a consistent color based on username
+    
+    // Process image path before output
+    $cleanPath = ltrim($imageSrc, '/');
+    // If it's a local file that doesn't exist, try the uploads directory
+    if (!filter_var($cleanPath, FILTER_VALIDATE_URL) && !file_exists($cleanPath) && file_exists('uploads/memes/' . basename($cleanPath))) {
+        $cleanPath = 'uploads/memes/' . basename($cleanPath);
+    }
+    // If still not found, use a placeholder
+    $finalPath = (file_exists($cleanPath) || filter_var($cleanPath, FILTER_VALIDATE_URL)) 
+        ? $cleanPath 
+        : 'https://via.placeholder.com/500x500?text=Image+Not+Found';
+    $finalPath = htmlspecialchars($finalPath);
+    $altText = htmlspecialchars($title);
+    
+    // Debug output - uncomment if needed
+    // error_log("Image source: $imageSrc");
+    // error_log("Final path: $finalPath");
     
     echo <<<HTML
     <div class="meme-card" id="$cardId">
         <!-- Card Header with User Info -->
         <div class="meme-card__header">
             <div class="meme-card__user">
-                <img src="https://ui-avatars.com/api/?name=User&background=random" alt="User" class="meme-card__avatar">
+                <div class="meme-card__avatar" style="background-color: #$bgColor">$initials</div>
                 <div class="meme-card__user-info">
-                    <span class="meme-card__username">@meme_creator</span>
-                    <span class="meme-card__time">2h ago</span>
+                    <span class="meme-card__username">@$displayUsername</span>
+                    <span class="meme-card__time">Shared recently</span>
                 </div>
             </div>
             <button class="meme-card__more" aria-label="More options">
@@ -25,7 +47,10 @@ function renderCard($imageSrc, $title = "Untitled", $likes = 0) {
         
         <!-- Card Image -->
         <div class="meme-card__image">
-            <img src="$imageSrc" alt="$title" loading="lazy">
+            <img src="$finalPath" 
+                 alt="$altText" 
+                 loading="lazy" 
+                 onerror="this.onerror=null; this.src='https://via.placeholder.com/500x500?text=Image+Not+Found';">
         </div>
         
         <!-- Card Actions -->
@@ -75,11 +100,11 @@ function renderCard($imageSrc, $title = "Untitled", $likes = 0) {
     .meme-card {
         background: #fff;
         border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        margin-bottom: 24px;
         overflow: hidden;
-        transition: all 0.3s ease;
-        border: 1px solid #eee;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        margin-bottom: 24px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        border: 1px solid #f0f0f0;
     }
     
     .meme-card:hover {
@@ -102,11 +127,16 @@ function renderCard($imageSrc, $title = "Untitled", $likes = 0) {
     }
     
     .meme-card__avatar {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         border-radius: 50%;
-        object-fit: cover;
-        border: 1px solid #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
     }
     
     .meme-card__user-info {
@@ -121,7 +151,7 @@ function renderCard($imageSrc, $title = "Untitled", $likes = 0) {
     }
     
     .meme-card__time {
-        font-size: 10px;
+        font-size: 12px;
         color: #8e8e8e;
     }
     
@@ -142,28 +172,31 @@ function renderCard($imageSrc, $title = "Untitled", $likes = 0) {
     
     .meme-card__image {
         width: 100%;
+        position: relative;
         background: #fafafa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 300px;
+        max-height: 500px;
+        overflow: hidden;
     }
     
     .meme-card__image img {
         width: 100%;
-        height: auto;
-        display: block;
-        aspect-ratio: 1;
-        object-fit: cover;
+        height: 100%;
+        object-fit: contain;
+        max-height: 500px;
     }
     
     .meme-card__actions {
         display: flex;
-        padding: 8px 16px;
-        gap: 16px;
-        border-bottom: 1px solid #f5f5f5;
+        padding: 12px 16px;
+        gap: 20px;
+        border-top: 1px solid #f5f5f5;
     }
     
     .meme-card__action {
-        background: none;
-        border: none;
-        cursor: pointer;
         display: flex;
         align-items: center;
         gap: 6px;

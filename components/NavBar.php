@@ -19,6 +19,9 @@ if (session_status() === PHP_SESSION_NONE) {
             <?php if (isset($_SESSION['user_id'])): ?>
                 <!-- Only visible to logged-in users -->
                 <li>
+                    <a href="/" class="menu-button">Home</a>
+                </li>
+                <li>
                     <a href="/pages/create_meme.php" class="menu-button">Create Meme</a>
                 </li>
                 <li>
