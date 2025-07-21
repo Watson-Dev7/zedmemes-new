@@ -10,9 +10,15 @@ if (session_status() === PHP_SESSION_NONE) {
         <!-- Logo -->
         <div class="logo-container">
             <div class="logo">
-                <span class="logo-text">ZedMemes</span>
+                <a href="/" class="logo-text">ZedMemes</a>
             </div>
         </div>
+        
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <span class="menu-icon">☰</span>
+            <span class="close-icon" style="display: none;">✕</span>
+        </button>
 
         <!-- Menu Items -->
         <ul class="menu-items">
@@ -45,6 +51,9 @@ if (session_status() === PHP_SESSION_NONE) {
         </ul>
     </div>
 </nav>
+
+<!-- Include Navigation Script -->
+<script src="/js/navbar.js"></script>
 
 <script>
 // Handle logout button click
