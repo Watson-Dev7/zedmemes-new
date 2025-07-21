@@ -1,56 +1,64 @@
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </main>
 
-<!-- Foundation JS -->
-<script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js"></script>
+    <footer>
+        <div class="container">
+            <p>&copy; <?php echo date('Y'); ?> ZedMemes. All rights reserved.</p>
+        </div>
+    </footer>
 
-<!-- Initialize Foundation -->
-<script>
-    $(document).foundation();
-</script>
-
-<!-- Main Application JavaScript -->
-<script src="/js/main.js"></script>
-
-<script>
-    // Logout function
-    function logout() {
-        // You can add any client-side logout logic here
-        // For example, redirecting to logout.php
-        window.location.href = '/logout.php';
-    }
-
-</script>
-
-<script>
-    function openForm(type) {
-        const overlay = document.getElementById('form-overlay');
-        const title = document.getElementById('form-title');
-        const value = document.getElementById('addSign');
-        const extraFields = document.getElementById('extra-fields');
-
-        const hidBut = document.getElementById('hideMe');
-
-        overlay.classList.remove('hidden');
-
-        if (type === 'signup') {
-            title.textContent = 'Sign Up';
-            extraFields.classList.remove('hidden');
-
-            value.textContent = 'Sign Up';
-            hidBut.textContent = " ";
-        } else {
-            title.textContent = 'Log In';
-            extraFields.classList.add('hidden');
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Foundation JS -->
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js"></script>
+    
+    <!-- Main Application JavaScript -->
+    <script src="/js/main.js"></script>
+    
+    <!-- Initialize Foundation -->
+    <script>
+        $(document).foundation();
+        
+        // Logout function
+        function logout() {
+            // You can add any client-side logout logic here
+            // For example, redirecting to logout.php
+            window.location.href = '/logout.php';
         }
-    }
+    </script>
 
-    function closeForm() {
-        document.getElementById('form-overlay').classList.add('hidden');
-    }
+    <script>
+        // Form handling functions
+        function openForm(type) {
+            const overlay = document.getElementById('form-overlay');
+            if (!overlay) return;
+            
+            const title = document.getElementById('form-title');
+            const value = document.getElementById('addSign');
+            const extraFields = document.getElementById('extra-fields');
+            const hidBut = document.getElementById('hideMe');
 
-    // Login form will be shown when user clicks the login button
+            overlay.classList.remove('hidden');
+
+            if (type === 'signup') {
+                if (title) title.textContent = 'Sign Up';
+                if (extraFields) extraFields.classList.remove('hidden');
+                if (value) value.textContent = 'Sign Up';
+                if (hidBut) hidBut.textContent = " ";
+            } else {
+                if (title) title.textContent = 'Log In';
+                if (extraFields) extraFields.classList.add('hidden');
+            }
+        }
+
+        function closeForm() {
+            const overlay = document.getElementById('form-overlay');
+            if (overlay) {
+                overlay.classList.add('hidden');
+            }
+        }
 </script>
+
 <style>
     /* Overlay */
     .overlay {
@@ -106,8 +114,6 @@
     h1 {
         text-decoration: solid;
         text-align: center;
-
-
         font-family: Arial, Helvetica, sans-serif;
         color: #0077cc;
     }
@@ -118,7 +124,6 @@
         justify-content: center;
         align-items: center;
         margin: 100px;
-
     }
 
     .click {
@@ -131,7 +136,6 @@
         margin: 10px;
         font-weight: bold;
         text-align: center;
-
     }
 
     .click:hover {
@@ -141,5 +145,4 @@
     }
 </style>
 </body>
-
 </html>

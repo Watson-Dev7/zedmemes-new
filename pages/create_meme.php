@@ -2,6 +2,8 @@
 require_once '../config/database.php';
 require_once '../includes/session.php';
 
+
+
 // Redirect if not logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: /login.php');
@@ -170,7 +172,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <?php include '../components/Header.php'; ?>
-    <?php include '../components/NavBar.php'; ?>
     
     <main class="create-meme-container">
         <h1>Create a New Meme</h1>

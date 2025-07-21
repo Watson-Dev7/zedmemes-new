@@ -1,6 +1,6 @@
 <?php
 include './components/Header.php';
-include './components/NavBar.php';
+
 require './components/homePage/Card.php';
 
 // Sample meme data

@@ -207,7 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['meme_id'])) {
 </head>
 <body>
     <?php include '../components/Header.php'; ?>
-    <?php include '../components/NavBar.php'; ?>
+    
     
     <div class="my-memes-container">
         <div class="page-header">
