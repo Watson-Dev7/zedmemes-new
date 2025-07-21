@@ -1,102 +1,114 @@
-# ZedMeme - Meme Sharing Platform
+# ZedMeme - Modern Meme Sharing Platform
 
-ZedMeme is a PHP-based web application that allows users to share and view memes in real-time. The platform includes user authentication, meme uploads, and a responsive design built with Foundation CSS framework.
+ZedMeme is a modern, responsive PHP-based web application for sharing and discovering memes. Built with a clean, user-friendly interface and robust backend functionality.
 
-## Features
+![ZedMeme Screenshot](/screenshots/zedmeme-screenshot.png)
 
-- User registration and authentication
-- Meme upload and display
-- Real-time updates using Server-Sent Events (SSE)
-- Responsive design with Foundation CSS
-- User profile management
-- Like and interact with memes
+## ✨ Features
 
-## Prerequisites
+- 🚀 **User Authentication**
+  - Secure registration and login system
+  - Session management with PHP
+  - Password hashing for security
 
-- PHP 7.4 or higher
-- MySQL 5.7 or higher
-- Web server (Apache/Nginx) or PHP's built-in development server
-- Composer (for dependency management)
-- Node.js and npm (for frontend assets)
+- 📱 **Responsive Design**
+  - Mobile-first approach
+  - Smooth mobile menu with touch gestures
+  - Optimized for all screen sizes
 
-## Installation
+- 🖼️ **Meme Management**
+  - Upload and share memes with ease
+  - View trending and recent memes
+  - Like and save your favorite memes
 
-1. Clone the repository:
+- 🎨 **Modern UI/UX**
+  - Clean, minimalist design
+  - Smooth animations and transitions
+  - Intuitive navigation
+
+## 🛠️ Prerequisites
+
+- PHP 8.0 or higher
+- MySQL 8.0 or higher
+- Web server (Apache/Nginx) or PHP's built-in server
+- Modern web browser with JavaScript enabled
+
+## 🚀 Quick Start
+
+1. **Clone the repository**
    ```bash
-   git clone [repository-url].git
-   cd Zedmeme.com
+   git clone https://github.com/your-username/zedmeme.git
+   cd zedmeme
    ```
 
-2. Set up the database:
-   - Create a new MySQL database
-   - Import the database schema from `database/schema.sql`
-   - Copy `.env.example` to `.env` and update the database credentials
+2. **Set up the database**
+   ```sql
+   CREATE DATABASE zedmeme;
+   USE zedmeme;
+   ```
+   Import the SQL schema from `database/schema.sql`
 
-3. Install PHP dependencies:
-   ```bash
-   composer install
+3. **Configure the application**
+   Copy `.env.example` to `.env` and update with your database credentials:
+   ```env
+   DB_HOST=localhost
+   DB_NAME=zedmeme
+   DB_USER=your_username
+   DB_PASS=your_password
    ```
 
-4. Configure the application:
-   - Update the database connection settings in `config/database.php`
-   - Set up your web server to point to the `public` directory
-
-5. Start the development server:
+4. **Start the development server**
    ```bash
    php -S localhost:8000 -t public
    ```
+   Open your browser and visit `http://localhost:8000`
 
-## Project Structure
+## 🏗️ Project Structure
 
 ```
 Zedmeme.com/
-├── components/         # Reusable UI components
+├── components/         # Reusable PHP components
+│   ├── homePage/      # Homepage components
+│   └── shared/        # Shared UI components
 ├── config/            # Configuration files
-├── foundation/        # Frontend assets (CSS/JS)
-├── handler/           # PHP request handlers
-├── images/            # Uploaded memes
+│   └── database.php   # Database configuration
+├── css/               # Compiled CSS files
+├── handler/           # Request handlers
+├── js/                # JavaScript files
+│   └── navbar.js      # Responsive navigation
 ├── pages/             # Page templates
-├── public/            # Publicly accessible files
-├── .env.example       # Environment configuration example
-├── composer.json      # PHP dependencies
+├── uploads/           # User-uploaded memes
+│   └── memes/         # Meme images
+├── .env.example       # Environment config example
 └── README.md          # This file
 ```
 
-## Features in Detail
+## 🌐 Browser Support
 
-### User Authentication
-- Secure login/signup system
-- Session management
-- Password hashing
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- Mobile Safari (iOS 12+)
+- Chrome for Android
 
-### Meme Management
-- Upload and share memes
-- View meme feed
-- Like functionality
-- Real-time updates
+## 🤝 Contributing
 
-### Frontend
-- Responsive design with Foundation CSS
-- Interactive UI components
-- Client-side form validation
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## API Endpoints
+## 📄 License
 
-- `POST /handler/auth-handler.php` - Handle user authentication
-- `POST /handler/upload.php` - Handle meme uploads
-- `GET /finalSendData.php` - SSE endpoint for real-time updates
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Development
+## 🙏 Acknowledgments
 
-### Frontend Development
-- Edit files in the `foundation/` directory
-- CSS is compiled using SASS
-- JavaScript modules are bundled using Webpack
-
-### Backend Development
-- Follow PSR-4 autoloading standards
-- Use prepared statements for database queries
-- Keep business logic separate from presentation
+- Built with PHP and MySQL
+- Responsive design with modern CSS
+- Mobile-first approach for better accessibility
 
 ## Environment Variables
 
