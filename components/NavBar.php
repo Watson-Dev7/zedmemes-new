@@ -19,10 +19,10 @@ if (session_status() === PHP_SESSION_NONE) {
             <?php if (isset($_SESSION['user_id'])): ?>
                 <!-- Only visible to logged-in users -->
                 <li>
-                    <button class="menu-button" onclick="triggerThrobber()">Create Meme</button>
+                    <a href="/pages/create_meme.php" class="menu-button">Create Meme</a>
                 </li>
                 <li>
-                    <button class="menu-button" onclick="triggerThrobber()">Remove Meme</button>
+                    <a href="/pages/my_memes.php" class="menu-button">My Memes</a>
                 </li>
                 <li>
                     <a href="#" id="logout-btn" class="menu-button">Logout</a>

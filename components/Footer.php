@@ -1,55 +1,23 @@
-<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Foundation JS -->
 <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js"></script>
+
+<!-- Initialize Foundation -->
 <script>
     $(document).foundation();
 </script>
-<script src="script.js"></script>
 
-<script src="login.js"></script>
-
-<script src="spin.js"></script>
-<script src="pages/uploadMeme.js"></script>
-
-<!-- <script src="finalReceiveData.js"></script> -->
-<!-- <script src="test.Response.js"></script> -->
-
-<script src="start.js"></script>
-<script src="foundation/js/main.js"></script>
+<!-- Main Application JavaScript -->
+<script src="/js/main.js"></script>
 
 <script>
-    document.querySelectorAll('.cta-button').forEach(button => {
-        button.addEventListener('click', () => {
-            const icon = button.querySelector('.icons');
-
-            // Trigger pop animation
-            icon.classList.add('animate');
-
-            icon.addEventListener('animationend', () => {
-                icon.classList.remove('animate');
-            }, { once: true });
-
-            // Disable further clicks
-            //button.disabled = true;
-            //button.style.cursor = 'default';
-        });
-    });
-
-
-    const profileBtn = document.getElementById('profile-btn');
-    const profileOverlay = document.getElementById('profile-overlay');
-
-    profileBtn.addEventListener('click', () => {
-        profileOverlay.classList.remove('hidden');
-    });
-
-    function closeProfile() {
-        profileOverlay.classList.add('hidden');
-    }
-
+    // Logout function
     function logout() {
-        alert("Logging out...");
-        // Add logout logic here
-        closeProfile();
+        // You can add any client-side logout logic here
+        // For example, redirecting to logout.php
+        window.location.href = '/logout.php';
     }
 
 </script>
