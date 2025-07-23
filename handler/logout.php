@@ -14,7 +14,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $response = [
     'success' => false,
     'message' => 'Logout failed',
-    'redirect' => '/'
+    'redirect' => '/zedmemes-new/'
 ];
 
 try {

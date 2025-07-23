@@ -1,4 +1,6 @@
-<link rel="stylesheet" href="../foundation/css/login.css">
+<?php
+include './components/Header.php';
+?>
 
 <div class="login-wrapper">
     <form id="login-form" class="login-form">
@@ -72,4 +74,4 @@
 </script>
 
 
-<?php include '../components/Footer.php' ?>
+<?php include './components/Footer.php' ?>

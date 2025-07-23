@@ -9,7 +9,6 @@ if (!isset($pdo)) {
     require_once __DIR__ . '/../config/database.php';
 }
 ?>
-
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
@@ -21,7 +20,9 @@ if (!isset($pdo)) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/css/foundation.min.css" crossorigin="anonymous">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="./foundation/css/main.css">
     
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -32,4 +33,4 @@ if (!isset($pdo)) {
 <body>
     <?php include __DIR__ . '/NavBar.php'; ?>
     
-    <main class="grid-container">
+    

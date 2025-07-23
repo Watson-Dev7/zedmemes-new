@@ -6,7 +6,7 @@ try {
     $conn = connection();
     
     // If we get here, connection was successful
-    // echo "✅ Successfully connected to database and created tables!\n";
+    echo "✅ Successfully connected to database and created tables!\n";
     
     // Test inserting a test user
     $testUsername = 'testuser_' . time();
@@ -19,7 +19,7 @@ try {
     
     if ($stmt->execute()) {
         $userId = $conn->insert_id;
-        // echo "✅ Successfully inserted test user with ID: $userId\n";
+        echo "✅ Successfully inserted test user with ID: $userId\n";
         
         // Test inserting a test image
         $testFilename = 'test_image_' . time() . '.jpg';
@@ -29,7 +29,7 @@ try {
         
         if ($stmt->execute()) {
             $imageId = $conn->insert_id;
-            // echo "✅ Successfully inserted test image with ID: $imageId\n";
+            echo "✅ Successfully inserted test image with ID: $imageId\n";
             
             // Verify data was inserted
             $result = $conn->query("SELECT u.username, i.filename 
@@ -42,7 +42,7 @@ try {
                 while ($row = $result->fetch_assoc()) {
                     // echo "\n- User: " . $row['username'] . " uploaded: " . $row['filename'];
                 }
-                // echo "\n\n✅ All tests passed successfully!\n";s
+                echo "\n\n✅ All tests passed successfully!\n";
             }
         }
     }

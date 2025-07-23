@@ -3,14 +3,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 ?>
-
 <!-- NAVBAR -->
 <nav class="navbar">
     <div class="navbar-container">
         <!-- Logo -->
         <div class="logo-container">
             <div class="logo">
-                <a href="/" class="logo-text">ZedMemes</a>
+                <a href="/zedmemes-new/" class="logo-text">ZedMemes</a>
             </div>
         </div>
         
@@ -25,13 +24,13 @@ if (session_status() === PHP_SESSION_NONE) {
             <?php if (isset($_SESSION['user_id'])): ?>
                 <!-- Only visible to logged-in users -->
                 <li>
-                    <a href="/" class="menu-button">Home</a>
+                    <a href="/zedmemes-new/" class="menu-button">Home</a>
                 </li>
                 <li>
-                    <a href="/pages/create_meme.php" class="menu-button">Create Meme</a>
+                    <a href="/zedmemes-new/create_meme" class="menu-button">Create Meme</a>
                 </li>
                 <li>
-                    <a href="/pages/my_memes.php" class="menu-button">My Memes</a>
+                    <a href="/zedmemes-new/my_memes" class="menu-button">My Memes</a>
                 </li>
                 <li>
                     <a href="#" id="logout-btn" class="menu-button">Logout</a>
@@ -42,10 +41,10 @@ if (session_status() === PHP_SESSION_NONE) {
                     <button class="menu-button" onclick="triggerThrobber()">Filter</button>
                 </li>
                 <li>
-                    <a href="pages/login.php" class="menu-button login-btn">Login</a>
+                    <a href="/zedmemes-new/login" class="menu-button login-btn">Login</a>
                 </li>
                 <li>
-                    <a href="pages/signup.php" class="menu-button signup-btn">Sign Up</a>
+                    <a href="/zedmemes-new/signup" class="menu-button signup-btn">Sign Up</a>
                 </li>
             <?php endif; ?>
         </ul>
@@ -78,14 +77,14 @@ document.getElementById('logout-btn')?.addEventListener('click', async function(
         
         if (result.success) {
             // Redirect to login page after successful logout
-            window.location.href = '/';
+            window.location.href = '/zedmemes-new/login';
         } else {
             alert('Logout failed: ' + (result.message || 'Unknown error'));
         }
     } catch (error) {
         console.error('Logout error:', error);
         // Fallback redirect in case of error
-        window.location.href = '/';
+        window.location.href = '/zedmemes-new/login';
     }
 });
 </script>
